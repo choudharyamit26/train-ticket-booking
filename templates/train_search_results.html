@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    /* styles.css */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: rgb(0, 221, 255);
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .btn {
+      margin-top: 40px;
+      padding: 10px 20px;
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .train-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .train-item {
+      margin-bottom: 20px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .train-title {
+      margin-top: 0;
+    }
+
+    .train-details {
+      margin-left: 20px;
+    }
+
+    .train-details p {
+      margin: 5px 0;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Train Search Results</h1>
+    <nav>
+      <ul>
+        <li><a href="{% url 'core:train_search' %}">Search Train</a></li>
+        <li><a href="{% url 'core:my_bookings' %}">My Bookings</a></li>
+        <li><a href="{% url 'users:logout' %}">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    {% if trains %}
+    <ul class="train-list">
+      {% for train in trains %}
+      <li class="train-item">
+        <h3 class="train-title">Train Number: {{ train.train_number }}</h3>
+        <div class="train-details">
+          <p><strong>Source:</strong> {{ train.source }}</p>
+          <p><strong>Destination:</strong> {{ train.destination }}</p>
+          <p><strong>Departure Time:</strong> {{ train.departure_time }}</p>
+          <p><strong>Arrival Time:</strong> {{ train.arrival_time }}</p>
+          <br>
+          <a href="{% url 'core:booking' train_number=train.train_number %}" class="btn">Book Ticket</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="no-results">No trains found for the given source and destination.</p>
+    {% endif %}
+  </div>
+
+  <script>
+    // Capture the click event of the "Book Ticket" button
+    document.addEventListener('DOMContentLoaded', function () {
+      var bookTicketButtons = document.getElementsByClassName('btn');
+
+      Array.prototype.forEach.call(bookTicketButtons, function (button) {
+        button.addEventListener('click', function (event) {
+          // Retrieve the source and destination values from the data attributes of the button
+          var source = button.dataset.source;
+          var destination = button.dataset.destination;
+
+          // Set the source and destination values in the query string of the booking page URL
+          var bookingPageUrl = button.href;
+          button.href = bookingPageUrl;
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>

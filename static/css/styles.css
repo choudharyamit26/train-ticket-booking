@@ -1,0 +1,73 @@
+/* styles.css */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  form {
+    margin-top: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .btn {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .train-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .train-item {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .train-title {
+    margin-top: 0;
+  }
+  
+  .train-details {
+    margin-left: 20px;
+  }
+  
+  .train-details p {
+    margin: 5px 0;
+  }
+  
+  .no-results {
+    text-align: center;
+    color: #888;
+  }
+  

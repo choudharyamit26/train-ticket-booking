@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: rgb(0, 221, 255);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Book Ticket</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'core:train_search' %}">Search Train</a></li>
+                <li><a href="{% url 'core:my_bookings' %}">My Bookings</a></li>
+                <li><a href="{% url 'users:logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <form method="POST" action="{% url 'core:booking' train_number=train.train_number %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="train_number">Train Number:</label>
+                <input type="text" id="train_number" name="train" value="{{train.train_number}}" class="form-control"
+                    placeholder="Enter train number">
+            </div>
+            <div class="form-group">
+                <label for="source">Source:</label>
+                <input type="text" id="source" name="source" value="{{source}}" class="form-control"
+                    placeholder="Enter source station">
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" value="{{destination}}" class="form-control"
+                    placeholder="Enter destination station">
+            </div>
+            <div class="form-group">
+                <label for="journey_date">Journey Date:</label>
+                <input type="date" id="journey_date" name="journey_date" class="form-control"
+                    placeholder="Enter journey date">
+            </div>
+
+            <div class="form-group">
+                <label for="journey_time">Journey Date:</label>
+                <input type="time" id="journey_time" name="journey_time" class="form-control"
+                    placeholder="Enter journey time">
+            </div>
+            <button type="submit" class="btn">Book Ticket</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: rgb(0, 221, 255);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .container {
+            margin: 20px;
+        }
+
+        .booking-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .booking-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1>My Bookings</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'core:train_search' %}">Search Train</a></li>
+                <li><a href="{% url 'core:my_bookings' %}">My Bookings</a></li>
+                <li><a href="{% url 'users:logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        {% if tickets %}
+        <ul class="booking-list">
+            {% for ticket in tickets %}
+            <li class="booking-item">
+                <p><strong>Ticket ID:</strong> {{ ticket.id }}</p>
+                <p><strong>Train Number:</strong> {{ ticket.train_number }}</p>
+                <p><strong>Source:</strong> {{ ticket.source }}</p>
+                <p><strong>Destination:</strong> {{ ticket.destination }}</p>
+                <p><strong>Journey Date:</strong> {{ ticket.journey_date }}</p>
+                <p><strong>Journey Time:</strong> {{ ticket.journey_time }}</p>
+                <p><strong>PNR:</strong> {{ ticket.pnr }}</p>
+                <p><strong>Current Status:</strong> {{ ticket.status }}</p>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                {% if ticket.status != "Cancelled" %}
+                <button type="button" class="btn" onclick="cancelTicket('{{ ticket.id }}')">Cancel Ticket</button>
+                {% endif %}
+
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No bookings found.</p>
+        {% endif %}
+    </div>
+    <script>
+        function cancelTicket(ticketId) {
+            // Perform an AJAX request to cancel the ticket
+            $.ajax({
+                url: `/core/booking/${ticketId}/cancel/`,
+                method: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    alert(response.message);
+                    // Reload the page to reflect the updated ticket status
+                    location.reload();
+                },
+                error: function (error) {
+                    alert('An error occurred while cancelling the ticket.');
+                }
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>
